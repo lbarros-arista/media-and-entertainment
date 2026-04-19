@@ -17,9 +17,6 @@ digital_twin:
     act_ensure_eapi_access: true
   use_default_interfaces_of_digital_twin_platform: false
 
-# custom_structured_configuration_switchport_default:
-#   mode: routed
-
 mgmt_gateway: 172.16.255.1
 ipv6_mgmt_gateway: 2001:db8:feed:beef::1
 mgmt_interface: Management1
@@ -53,10 +50,6 @@ aaa_settings:
       role: network-admin
       # Password set to "ansible". Same string as the device generates when configuring a username.
       sha512_password: $6$7u4j1rkb3VELgcZE$EJt2Qff8kd/TapRoci0XaIZsL4tFzgq1YZBLD9c6f/knXzvcYY0NcMKndZeCv0T268knGKhOEwZAxqKjlMm920
-    - name: lbarros
-      privilege: 15
-      role: network-admin
-      sha512_password: $6$Mv.ZIHLAJqslAJPc$8lNiMsHaTfWd9iuANESL2FsFkbiNyBwtWVzYp4bj/gHAuRCVJ9ZMQzMA04.kXiKMgt3cHlOFLp6Ko/pZYrAEp.
   authorization:
     exec:
       default: local
