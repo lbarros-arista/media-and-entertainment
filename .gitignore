@@ -1,0 +1,33 @@
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+# cv-*-token
+# **/cv-*-token
+cv-ansible-vault.txt
+**/cv-ansible-vault.txt
+eos_designs_to_containerlab
+**/eos_designs_to_containerlab
+config_backup
+**/config_backup
+documentation
+**/documentation
+intended
+**/intended
+**.topology.clab.yml.bak
+clab-AVD
+**clab-AVD
+temp*
+*.tar
+cEOSarm*
+**cEOSarm*
+# sn/*
+# **/sn/*
+custom_anta_catalogs
+**/custom_anta_catalogs
+reports
+**/reports
+cvaas_deploy_lbarros.yml
+**cvaas_deploy_lbarros.yml
+anta
+digital_twin

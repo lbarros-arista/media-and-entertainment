@@ -1,0 +1,119 @@
+---
+
+media-rt-leaf:
+  defaults:
+    platform: ceos
+    loopback_ipv4_pool: 10.255.255.0/24
+    loopback_ipv6_pool: 2001:db8:255:255::/64
+    loopback_ipv4_offset: 2
+    loopback_ipv6_offset: 2
+    uplink_ipv4_pool: 10.255.0.0/24
+    uplink_ipv6_pool: 2001:db8:255::/64
+    uplink_interface_speed: 400g-4
+    uplink_interfaces: [ Ethernet1 ]
+    spanning_tree_priority: 4096
+    spanning_tree_mode: mstp
+    bgp_defaults:
+      - timers bgp 5 15
+      - neighbor default send-community
+    ptp:
+      enabled: true
+    structured_config:
+      prefix_lists:
+        - name: PL-ANY
+          sequence_numbers:
+            - sequence: 10
+              action: "permit 0.0.0.0/0 le 32"
+        - name: PL-MGMT
+          sequence_numbers:
+            - sequence: 10
+              action: "permit 172.16.255.0/24"
+      route_maps:
+        - name: RM-CONNECTED
+          sequence_numbers:
+            - sequence: 10
+              type: deny
+              description: MGMT
+              match:
+                - "ip address prefix-list PL-MGMT"
+            - sequence: 20
+              type: permit
+              description: ANY
+              match:
+                - "ip address prefix-list PL-ANY"
+      router_bgp:
+        redistribute:
+          connected:
+            enabled: true
+            route_map: RM-CONNECTED
+    raw_eos_cli: |
+      daemon TerminAttr
+        exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1 -sysdbexcludes=mcs/v1/fromCvx/deviceConfig/senderPolicy,routing/pim/sparsemode/registerstatus/default/noRegisterOif,routing/pim/sparsemode/register/config/vrfConfig/default/couldRegisterSg,acl/config/input/mcs/config/ip/acl,qos/acl/input/eosSdkConfig/mcs/cmapType/mapQos/cmap,qos/status/cmapType/mapQos/cmap,acl/status/all/status/ip/acl,routing/multicast/routestatus/default/sparsemode/route,routing/pim/sparsemode/status/default/route,routing/pim/sparsemode/register/config/vrfConfig/default/registerStop,mcs/v1/fromCvx/deviceConfig/staticMfibRoute,routing/multicast/routestatus/default/mcs/route,mcs/v1/activeflows/route,routing/hardware/multicast/status/vrfStatus/default/route
+        no shutdown
+      platform tfa
+         interface mode relaying
+  node_groups:
+    - group: RT-RACK1
+      nodes:
+        - name: red-rt-leaf1
+          id: 1
+          mgmt_ip: 172.16.255.13/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::13/64
+          uplink_switches: [ red-spine ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+          bgp_as: 65201
+          structured_config:
+            management_cvx:
+              shutdown: false
+              server_hosts: 
+                - 172.16.255.80
+              source_interface: Management1
+            mcs_client:
+              shutdown: false
+        - name: blue-rt-leaf1
+          id: 2
+          mgmt_ip: 172.16.255.14/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::14/64
+          uplink_switches: [ blue-spine ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+          bgp_as: 65301
+          structured_config:
+            management_cvx:
+              shutdown: false
+              server_hosts: 
+                - 172.16.255.81
+              source_interface: Management1
+            mcs_client:
+              shutdown: false
+    - group: RT-RACK2
+      nodes:
+        - name: red-rt-leaf2
+          id: 3
+          mgmt_ip: 172.16.255.15/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::15/64
+          uplink_switches: [ red-spine ]
+          uplink_switch_interfaces: [ Ethernet4 ]
+          bgp_as: 65202
+          structured_config:
+            management_cvx:
+              shutdown: false
+              server_hosts: 
+                - 172.16.255.80
+              source_interface: Management1
+            mcs_client:
+              shutdown: false
+        - name: blue-rt-leaf2
+          id: 4
+          mgmt_ip: 172.16.255.16/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::16/64
+          uplink_switches: [ blue-spine ]
+          uplink_switch_interfaces: [ Ethernet4 ]
+          bgp_as: 65302
+          structured_config:
+            management_cvx:
+              shutdown: false
+              server_hosts: 
+                - 172.16.255.81
+              source_interface: Management1
+            mcs_client:
+              shutdown: false

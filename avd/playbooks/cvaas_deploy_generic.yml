@@ -1,0 +1,21 @@
+---
+
+- name: Configuration deployment
+  hosts: FABRIC
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Deploy configurations and tags to CloudVision
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        cv_server: www.cv-prod-euwest-2.arista.io
+        cv_skip_missing_devices: true
+        cv_submit_workspace: false
+        cv_run_change_control: false
+        cv_configlet_name_template: "AVD-${hostname}"
+        cv_register_detailed_results: true
+        cv_token: !vault |
+                  $ANSIBLE_VAULT;1.1;AES256
+                  "ADD YOUR CVAAS TOKEN HERE ENCRYPTED WITH ANSIBLE VAULT"
+

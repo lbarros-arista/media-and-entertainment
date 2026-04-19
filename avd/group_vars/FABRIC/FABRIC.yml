@@ -1,0 +1,183 @@
+---
+
+fabric_name: FABRIC
+
+eos_designs_documentation:
+  connected_endpoints: true
+  topology_csv: true
+  p2p_links_csv: true
+
+digital_twin:
+  environment: act
+  fabric: 
+    act_os_version: 4.36.0F
+    act_username: admin
+    act_password: admin
+    act_internet_access: true
+    act_ensure_eapi_access: true
+  use_default_interfaces_of_digital_twin_platform: false
+
+# custom_structured_configuration_switchport_default:
+#   mode: routed
+
+mgmt_gateway: 172.16.255.1
+ipv6_mgmt_gateway: 2001:db8:feed:beef::1
+mgmt_interface: Management1
+mgmt_interface_vrf: default
+
+management_eapi:
+  enabled: true
+  vrfs: 
+    - name: use_mgmt_interface_vrf
+      enabled: true
+
+custom_structured_configuration_management_interfaces:
+- name: Management1
+  lldp:
+    transmit: false
+    receive: false
+
+custom_structured_configuration_sflow:
+  sample: 1
+  polling_interval: 2
+  destinations:
+    - destination: 127.0.0.1
+  source_interface: Loopback0
+  run: True
+
+# Local users
+aaa_settings:
+  local_users:
+    - name: ansible
+      privilege: 15
+      role: network-admin
+      # Password set to "ansible". Same string as the device generates when configuring a username.
+      sha512_password: $6$7u4j1rkb3VELgcZE$EJt2Qff8kd/TapRoci0XaIZsL4tFzgq1YZBLD9c6f/knXzvcYY0NcMKndZeCv0T268knGKhOEwZAxqKjlMm920
+    - name: lbarros
+      privilege: 15
+      role: network-admin
+      sha512_password: $6$Mv.ZIHLAJqslAJPc$8lNiMsHaTfWd9iuANESL2FsFkbiNyBwtWVzYp4bj/gHAuRCVJ9ZMQzMA04.kXiKMgt3cHlOFLp6Ko/pZYrAEp.
+  authorization:
+    exec:
+      default: local
+
+p2p_uplinks_mtu: 9000
+underlay_routing_protocol: ebgp
+underlay_multicast_pim_sm: true
+underlay_multicast_static: true
+underlay_multicast_rps:
+  - rp: 10.255.255.0
+    nodes:
+      - name: red-spine
+        loopback_number: 1
+      - name: blue-spine
+        loopback_number: 1
+
+internal_vlan_order: 
+  allocation: ascending
+  range:
+    beginning: 4001
+    ending: 4094
+
+# DNS settings
+dns_settings:
+  domain: 'fabric.local'
+  servers:
+    - vrf: use_mgmt_interface_vrf
+      ip_address: 8.8.8.8
+    - vrf: use_mgmt_interface_vrf
+      ip_address: 8.8.4.4
+
+ntp_settings:
+  server_vrf: use_mgmt_interface_vrf
+  servers:
+    - name: 0.nl.pool.ntp.org
+    - name: 1.nl.pool.ntp.org
+    - name: 2.nl.pool.ntp.org
+    - name: 3.nl.pool.ntp.org
+
+l3_edge:
+  p2p_links_ip_pools:
+    - name: MCAST_POOL
+      ipv4_pool: 172.16.0.0/24
+  p2p_links_profiles:
+    - name: MCAST_PROFILE
+      speed: 100g-1
+      ip_pool: MCAST_POOL
+      include_in_underlay_protocol: false
+      multicast_pim_sm: true
+      multicast_static: true
+      ptp:
+        enabled: true
+        roles:
+          - master
+  p2p_links:
+    - nodes: [ ptp-leaf1, ptp-leaf2 ]
+      speed: 10g
+      subnet: 10.255.254.0/31
+      include_in_underlay_protocol: false
+      as: [ 65210, 65310 ]
+      ptp:
+        enabled: true
+      port_channel:
+        nodes_child_interfaces:
+          - node: ptp-leaf1
+            interfaces:
+              - Ethernet3
+              - Ethernet4
+          - node: ptp-leaf2
+            interfaces:
+              - Ethernet3
+              - Ethernet4
+    - nodes: [ ptp-leaf1, ptp-gm1 ]
+      subnet: 10.255.254.2/31
+      include_in_underlay_protocol: false
+      ptp:
+        enabled: true
+      interfaces: [ Ethernet5, Ethernet1 ]
+    - nodes: [ ptp-leaf2, ptp-gm2 ]
+      subnet: 10.255.254.4/31
+      include_in_underlay_protocol: false
+      ptp:
+        enabled: true
+      interfaces: [ Ethernet5, Ethernet1 ]
+    - nodes: [ red-rt-leaf1, media-host1 ]
+      id: 1
+      speed: 100g
+      interfaces: [ Ethernet2, Ethernet1 ]
+      profile: MCAST_PROFILE
+    - nodes: [ blue-rt-leaf1, media-host1 ]
+      id: 2
+      speed: 100g
+      interfaces: [ Ethernet2, Ethernet2 ]
+      profile: MCAST_PROFILE
+    - nodes: [ red-rt-leaf2, media-host2 ]
+      id: 3
+      speed: 100g
+      interfaces: [ Ethernet2, Ethernet1 ]
+      profile: MCAST_PROFILE
+    - nodes: [ blue-rt-leaf2, media-host2 ]
+      id: 4
+      speed: 100g
+      interfaces: [ Ethernet2, Ethernet2 ]
+      profile: MCAST_PROFILE
+    - nodes: [ red-rt-leaf1, media-host1 ]
+      id: 5
+      speed: 100g
+      interfaces: [ Ethernet3, Ethernet1 ]
+      profile: MCAST_PROFILE
+    - nodes: [ blue-rt-leaf1, media-host1 ]
+      id: 6
+      speed: 100g
+      interfaces: [ Ethernet3, Ethernet2 ]
+      profile: MCAST_PROFILE
+    - nodes: [ red-rt-leaf2, media-host2 ]
+      id: 7
+      speed: 100g
+      interfaces: [ Ethernet3, Ethernet1 ]
+      profile: MCAST_PROFILE
+    - nodes: [ blue-rt-leaf2, media-host2 ]
+      id: 8
+      speed: 100g
+      interfaces: [ Ethernet3, Ethernet2 ]
+      profile: MCAST_PROFILE

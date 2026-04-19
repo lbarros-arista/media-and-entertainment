@@ -1,0 +1,44 @@
+---
+
+custom_node_type_keys:
+  - key: media-spine
+    type: media-spine
+    underlay_router: true
+    default_underlay_routing_protocol: ebgp
+    default_overlay_routing_protocol: none
+    connected_endpoints: true
+    network_services:
+      l2: true
+      l3: true
+    default_ptp_priority1: 30
+    cv_tags_topology_type: spine
+
+  - key: media-rt-leaf
+    type: media-rt-leaf
+    underlay_router: true
+    default_underlay_routing_protocol: ebgp
+    default_overlay_routing_protocol: none
+    connected_endpoints: true
+    network_services:
+      l2: true
+      l3: true
+    default_ptp_priority1: 40
+    cv_tags_topology_type: leaf
+
+  - key: ptp-leaf
+    type: ptp-leaf
+    underlay_router: true
+    default_underlay_routing_protocol: ebgp
+    default_overlay_routing_protocol: none
+    connected_endpoints: true
+    network_services:
+      l2: true
+    default_ptp_priority1: 20
+    cv_tags_topology_type: leaf
+
+  - key: mcs
+    type: mcs
+    underlay_router: false
+    default_underlay_routing_protocol: none
+    default_overlay_routing_protocol: none
+    cv_tags_topology_type: leaf

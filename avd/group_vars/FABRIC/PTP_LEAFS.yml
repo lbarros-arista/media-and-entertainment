@@ -1,0 +1,82 @@
+---
+
+ptp-leaf:
+  defaults:
+    platform: ceos
+    loopback_ipv4_pool: 10.255.255.0/24
+    loopback_ipv6_pool: 2001:db8:255:255::/64
+    loopback_ipv4_offset: 2
+    loopback_ipv6_offset: 2
+    uplink_ipv4_pool: 10.255.0.0/24
+    uplink_ipv6_pool: 2001:db8:255::/64
+    uplink_interface_speed: 100g-1
+    uplink_interfaces: [ Ethernet1-2 ]
+    spanning_tree_mode: mstp
+    bgp_defaults:
+      - timers bgp 5 15
+      - neighbor default send-community
+      - neighbor IPv4-UNDERLAY-PEERS peer-tag in SPINE
+      - neighbor IPv4-UNDERLAY-PEERS peer-tag out discard SPINE
+    underlay_multicast:
+      pim_sm:
+        enabled: false
+      static:
+        enabled: false
+    ptp:
+      enabled: true
+    filter:
+      only_vlans_in_use: true
+    structured_config:
+      prefix_lists:
+        - name: PL-ANY
+          sequence_numbers:
+            - sequence: 10
+              action: "permit 0.0.0.0/0 le 32"
+        - name: PL-MGMT
+          sequence_numbers:
+            - sequence: 10
+              action: "permit 172.16.255.0/24"
+      route_maps:
+        - name: RM-CONNECTED
+          sequence_numbers:
+            - sequence: 10
+              type: deny
+              description: MGMT
+              match:
+                - "ip address prefix-list PL-MGMT"
+            - sequence: 20
+              type: permit
+              description: ANY
+              match:
+                - "ip address prefix-list PL-ANY"
+      router_bgp:
+        redistribute:
+          connected:
+            enabled: true
+            route_map: RM-CONNECTED
+      router_multicast:
+        ipv4:
+          routing: true
+    raw_eos_cli: |
+      daemon TerminAttr
+         exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
+         no shutdown
+      platform tfa
+         interface mode relaying
+  node_groups:
+    - group: PTP-LEAFS
+      nodes:
+        - name: ptp-leaf1
+          id: 5
+          mgmt_ip: 172.16.255.31/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::31/64
+          uplink_switches: [ red-spine, blue-spine ]
+          uplink_switch_interfaces: [ Ethernet1, Ethernet2 ]
+          bgp_as: 65210
+        - name: ptp-leaf2
+          id: 6
+          mgmt_ip: 172.16.255.32/24
+          ipv6_mgmt_ip: 2001:db8:feed:beef::32/64
+          uplink_switches: [ blue-spine, red-spine ]
+          uplink_switch_interfaces: [ Ethernet1, Ethernet2 ]
+          bgp_as: 65310

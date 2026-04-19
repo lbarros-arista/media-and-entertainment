@@ -1,0 +1,46 @@
+---
+
+mcs:
+  defaults:
+    platform: ceos
+    spanning_tree_mode: none
+    raw_eos_cli: |
+      daemon TerminAttr
+         exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
+         no shutdown
+      !
+      aaa authorization commands all default local
+      !
+      platform tfa
+         interface mode relaying
+  nodes:
+    - name: red-mcs
+      id: 7
+      mgmt_ip: 172.16.255.80/24
+      ipv6_mgmt_ip: 2001:db8:feed:beef::80/64
+      structured_config:
+        cvx:
+          shutdown: false
+          # peer_hosts:
+          #   - <str>
+          services:
+            mcs:
+              redis:
+                password: "070E33455D1D18"
+                password_type: "7"
+              shutdown: false
+    - name: blue-mcs
+      id: 8
+      mgmt_ip: 172.16.255.81/24
+      ipv6_mgmt_ip: 2001:db8:feed:beef::81/64
+      structured_config:
+        cvx:
+          shutdown: false
+          # peer_hosts:
+          #   - <str>
+          services:
+            mcs:
+              redis:
+                password: "070E33455D1D18"
+                password_type: "7"
+              shutdown: false

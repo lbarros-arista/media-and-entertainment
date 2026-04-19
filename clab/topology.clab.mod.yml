@@ -1,0 +1,249 @@
+name: AVD
+prefix: ''
+mgmt:
+  network: MGMT
+  ipv4-subnet: 172.16.255.0/24
+  ipv6-subnet: 2001:db8:feed:beef::/64
+topology:
+  defaults:
+    startup-delay: 5
+  kinds:
+    arista_ceos:
+      image: arista/ceos:4.35.3F
+  nodes:
+    red-mcs:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.80
+      mgmt-ipv6: 2001:db8:feed:beef::80
+      startup-config: ../avd/intended/configs/red-mcs.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/red-mcs.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports: ['5280:443/tcp', '4280:22/tcp']
+    blue-mcs:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.81
+      mgmt-ipv6: 2001:db8:feed:beef::81
+      startup-config: ../avd/intended/configs/blue-mcs.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/blue-mcs.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports: ['5281:443/tcp', '4281:22/tcp']
+    red-spine:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.11
+      mgmt-ipv6: 2001:db8:feed:beef::11
+      startup-config: ../avd/intended/configs/red-spine.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/red-spine.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4211:22/tcp
+      labels:
+        graph-level: 3
+        graph-icon: switch
+    blue-spine:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.12
+      mgmt-ipv6: 2001:db8:feed:beef::12
+      startup-config: ../avd/intended/configs/blue-spine.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/blue-spine.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4212:22/tcp
+      labels:
+        graph-level: 3
+        graph-icon: switch
+    red-rt-leaf1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.13
+      mgmt-ipv6: 2001:db8:feed:beef::13
+      startup-config: ../avd/intended/configs/red-rt-leaf1.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/red-rt-leaf1.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4213:22/tcp
+      labels:
+        graph-level: 4
+        graph-icon: switch
+    blue-rt-leaf1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.14
+      mgmt-ipv6: 2001:db8:feed:beef::14
+      startup-config: ../avd/intended/configs/blue-rt-leaf1.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/blue-rt-leaf1.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4214:22/tcp
+      labels:
+        graph-level: 4
+        graph-icon: switch
+    red-rt-leaf2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.15
+      mgmt-ipv6: 2001:db8:feed:beef::15
+      startup-config: ../avd/intended/configs/red-rt-leaf2.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/red-rt-leaf2.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4215:22/tcp
+      labels:
+        graph-level: 4
+        graph-icon: switch
+    blue-rt-leaf2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.16
+      mgmt-ipv6: 2001:db8:feed:beef::16
+      startup-config: ../avd/intended/configs/blue-rt-leaf2.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/blue-rt-leaf2.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4216:22/tcp
+      labels:
+        graph-level: 4
+        graph-icon: switch
+    ptp-leaf1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.31
+      mgmt-ipv6: 2001:db8:feed:beef::31
+      startup-config: ../avd/intended/configs/ptp-leaf1.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/ptp-leaf1.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4231:22/tcp
+      labels:
+        graph-level: 2
+        graph-icon: switch
+    ptp-leaf2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.32
+      mgmt-ipv6: 2001:db8:feed:beef::32
+      startup-config: ../avd/intended/configs/ptp-leaf2.cfg
+      enforce-startup-config: true
+      binds:
+      - ../clab/sn/ptp-leaf2.txt:/mnt/flash/ceos-config:ro
+      - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
+      - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+      ports:
+      - 4232:22/tcp
+      labels:
+        graph-level: 2
+        graph-icon: switch
+    media-host1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.91
+      mgmt-ipv6: 2001:db8:feed:beef::91
+      startup-config: ../clab/configs/media-host1.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/media-host1.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4291:22/tcp
+      labels:
+        graph-level: 5
+        graph-icon: host
+    media-host2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.92
+      mgmt-ipv6: 2001:db8:feed:beef::92
+      startup-config: ../clab/configs/media-host2.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/media-host2.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4292:22/tcp
+      labels:
+        graph-level: 5
+        graph-icon: host
+    media-host3:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.93
+      mgmt-ipv6: 2001:db8:feed:beef::93
+      startup-config: ../clab/configs/media-host3.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/media-host3.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4293:22/tcp
+      labels:
+        graph-level: 5
+        graph-icon: host
+    media-host4:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.94
+      mgmt-ipv6: 2001:db8:feed:beef::94
+      startup-config: ../clab/configs/media-host4.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/media-host4.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4294:22/tcp
+      labels:
+        graph-level: 5
+        graph-icon: host
+    ptp-gm1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.95
+      mgmt-ipv6: 2001:db8:feed:beef::95
+      startup-config: ../clab/configs/ptp-gm1.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/ptp-gm1.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4295:22/tcp
+      labels:
+        graph-level: 1
+        graph-icon: host
+    ptp-gm2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.16.255.96
+      mgmt-ipv6: 2001:db8:feed:beef::96
+      startup-config: ../clab/configs/ptp-gm2.cfg
+      enforce-startup-config: true
+      binds: ['../clab/sn/ptp-gm2.txt:/mnt/flash/ceos-config:ro', '../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro']
+      ports:
+      - 4296:22/tcp
+      labels:
+        graph-level: 1
+        graph-icon: host
+  links:
+  - endpoints: ['ptp-leaf1:eth3', 'ptp-leaf2:eth3']
+  - endpoints: ['ptp-leaf1:eth4', 'ptp-leaf2:eth4']
+  - endpoints: ['ptp-leaf1:eth5', 'ptp-gm1:eth1']
+  - endpoints: ['ptp-leaf2:eth5', 'ptp-gm2:eth1']
+  - endpoints: ['ptp-leaf1:eth1', 'red-spine:eth1']
+  - endpoints: ['ptp-leaf1:eth2', 'blue-spine:eth2']
+  - endpoints: ['red-rt-leaf1:eth1', 'red-spine:eth3']
+  - endpoints: ['red-rt-leaf2:eth1', 'red-spine:eth4']
+  - endpoints: ['ptp-leaf2:eth1', 'blue-spine:eth1']
+  - endpoints: ['ptp-leaf2:eth2', 'red-spine:eth2']
+  - endpoints: ['blue-rt-leaf1:eth1', 'blue-spine:eth3']
+  - endpoints: ['blue-rt-leaf2:eth1', 'blue-spine:eth4']
+  - endpoints: ['media-host1:eth1', 'red-rt-leaf1:eth2']
+  - endpoints: ['media-host1:eth2', 'blue-rt-leaf1:eth2']
+  - endpoints: ['media-host2:eth1', 'red-rt-leaf2:eth2']
+  - endpoints: ['media-host2:eth2', 'blue-rt-leaf2:eth2']
+  - endpoints: ['media-host3:eth1', 'red-rt-leaf1:eth3']
+  - endpoints: ['media-host3:eth2', 'blue-rt-leaf1:eth3']
+  - endpoints: ['media-host4:eth1', 'red-rt-leaf2:eth3']
+  - endpoints: ['media-host4:eth2', 'blue-rt-leaf2:eth3']
+annotations: null

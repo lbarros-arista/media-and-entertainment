@@ -1,0 +1,17 @@
+{
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+        "ARISTA_TOKEN": "${localEnv:ARTOKEN}"
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+            "srl-labs.vscode-containerlab"
+        ]
+      }
+    },
+    "postStartCommand": "bash -c 'if ! docker image inspect arista/ceos:4.36.0F >/dev/null 2>&1; then ardl --token $ARISTA_TOKEN get eos --format cEOSarm --latest --import-docker && rm cEOSarm-lab*; fi && curl -sL https://github.com/siemens/edgeshark/raw/main/deployments/wget/docker-compose.yaml | DOCKER_DEFAULT_PLATFORM=linux/arm64 docker compose -f - up -d'",
+    "remoteUser": "avd",
+}
