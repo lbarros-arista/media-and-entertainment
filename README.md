@@ -37,7 +37,7 @@ SYSTEMMACADDR=001c.73xx.xxxx
 
 Alternatively you can start the lab the first time without hardcoding the S/Ns and then copy the reandomly generated S/N and system MAC numbers from the **show version** of the machines once they are up and running.
 
-If you do this you need to first comment the lines out mounting the serial number files in the **topology.clab.yml** first before starting the lab:
+If you do this you need to first comment the lines out mounting the serial number files in the **topology.clab.yml** before starting the lab:
 
 ```
       binds:
@@ -68,7 +68,7 @@ If you do this you need to first comment the lines out mounting the serial numbe
 
    Then update the encrypted token in the playbook.
    
-   This means Add everything below **"$ANSIBLE_VAULT;1.1;AES256")** to **./avd/playbooks/cvaas_deploy.yml**
+   This means Add everything below **"$ANSIBLE_VAULT;1.1;AES256"** to **./avd/playbooks/cvaas_deploy.yml**
 
    ```
    ---
@@ -126,6 +126,18 @@ You can generate an Arista Token to download software at ***www.arista.com > Wel
 ![Arista Software Downloads Token](/images/token.png)
 
 Depending on how you set up your environment passing this variable is done in different ways.
+
+On my Mac I have Docker Desktop running and pass the variable to the devcontainer in this way:
+
+```
+username@hostname ~ % pwd
+/Users/username
+
+username@hostname ~ % cat .zshrc
+# export ARTOKEN value
+export ARTOKEN=SOME-PERSONAL-TOKEN-VALUE
+username@hostname ~ % 
+```
 
 #### Method 2 - Manual
 
