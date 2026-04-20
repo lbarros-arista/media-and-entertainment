@@ -439,28 +439,6 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
 '
 ```
 
-### Send API call to 
-
-```
-curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/multicast/receivers' \
---header 'Content-Type: application/json' \
---data '{
-    "flow-action": "addReceivers",
-    "transactionID": "ME-Demo",
-    "trackingID": 1,
-    "data": [
-        {
-            "destinationIP": "232.1.1.1",
-            "sourceIP": "172.16.0.3",
-            "outIntfID": [
-                "001c.7326.9b2b-Ethernet3"
-            ]
-        }
-    ]
-}
-'
-```
-
 ## Example for BLUE network
 
 ```
