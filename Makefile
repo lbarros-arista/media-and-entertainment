@@ -32,29 +32,21 @@ save:
 check-lab: ## check lab parameters
 	sudo containerlab inspect --name AVD
 
-.PHONY: graph-lab
-graph-lab: ## Generate a graphical representations of the topology
-	sudo containerlab graph --topo $(CURRENT_DIR)/clab/topology.clab.yml
-
 .PHONY: build
 build: ## Generate AVD configs
-# 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/build.yml --ask-vault-pass
 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/build.yml
 
 .PHONY: build-digital-twin
 build-digital-twin: ## Generate AVD configs
-# 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/build.yml --ask-vault-pass
 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/build-digital-twin.yml
 
 .PHONY: deploy-eapi
 deploy-eapi: ## Deploy AVD configs using eAPI
-# 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/deploy.yml --ask-vault-pass
 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/deploy.yml
 
 .PHONY: deploy-cvaas
 deploy-cvaas: ## Deploy AVD configs to CVaaS
-	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/cvaas_deploy_lbarros.yml --ask-vault-pass
-# 	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/cvaas_deploy.yml --ask-vault-pass
+	cd ${CURRENT_DIR}/avd; ansible-playbook playbooks/cvaas_deploy.yml --ask-vault-pass
 
 .PHONY: test
 test: ## Test Topology
