@@ -9,8 +9,20 @@ This is a test network to experiment with a SMPTE 2110 Real Time network and Ari
 
 ## Device Credentials
 
+There are 2 sets of device credentials:
+
+```
 > username: ansible  
 > password: ansible
+```
+
+admin/admin is useful for SSH access to CLAB machines, as it's the default arista_eos username mapped by ContainerLab:
+
+```
+> username: admin  
+> password: admin
+```
+
 
 ## Topology
 
@@ -62,7 +74,9 @@ If you do this you need to first comment the lines out mounting the serial numbe
 
    So in your devcontainer running AVD in the Terminal you can do this:
 
+```
    *ansible-vault encrypt_string 'PUT YOUR TOKEN STRING HERE' --name 'CV_API_TOKEN' >> ./clab/cvp-ansible-vault.txt*
+```
 
    **NOTE:** You don't need file **./clab/cvp-ansible-vault.txt**. You will just need the encypted token hash, the file is just a way of backing up your encrypted token hash.
 

@@ -45,6 +45,11 @@ custom_structured_configuration_sflow:
 # Local users
 aaa_settings:
   local_users:
+    - name: admin
+      privilege: 15
+      role: network-admin
+      # Password set to "admin". Same string as the device generates when configuring a username.
+      sha512_password: $6$X2g//gZ6.b8yAr2t$FCWeppCy64J/.bZVAMkhscGcv2h3DPKYOLAs63ziSkgaXoUyNjgrVygdnWf2yNVzHfAa1pYkJxgDbRm7MUxbp0
     - name: ansible
       privilege: 15
       role: network-admin
