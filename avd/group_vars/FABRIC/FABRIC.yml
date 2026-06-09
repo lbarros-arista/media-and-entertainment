@@ -17,22 +17,22 @@ digital_twin:
     act_ensure_eapi_access: true
   use_default_interfaces_of_digital_twin_platform: false
 
-mgmt_gateway: 172.16.255.1
+mgmt_gateway: 172.16.254.1
 ipv6_mgmt_gateway: 2001:db8:feed:beef::1
-mgmt_interface: Management1
-mgmt_interface_vrf: default
+
+mgmt_interface_settings:
+  description: OOB_MANAGEMENT
+  vrf: MGMT
+  interface: Management1
+  lldp:
+    transmit: false
+    receive: false
 
 management_eapi:
   enabled: true
   vrfs: 
     - name: use_mgmt_interface_vrf
       enabled: true
-
-custom_structured_configuration_management_interfaces:
-- name: Management1
-  lldp:
-    transmit: false
-    receive: false
 
 custom_structured_configuration_sflow:
   sample: 1

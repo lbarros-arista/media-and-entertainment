@@ -1,5 +1,5 @@
 # Use the Arista AVD image as the base
-FROM ghcr.io/aristanetworks/avd/universal:python3.12-avd-v6.1.0
+FROM ghcr.io/aristanetworks/avd/universal:python3.12-avd-v6.2.0
 
 # 1. Install system dependencies as root
 USER root
