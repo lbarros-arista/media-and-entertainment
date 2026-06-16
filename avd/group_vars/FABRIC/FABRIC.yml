@@ -10,19 +10,19 @@ eos_designs_documentation:
 digital_twin:
   environment: act
   fabric: 
-    act_os_version: 4.36.0F
+    act_os_version: 4.36.0.1F
     act_username: admin
     act_password: admin
     act_internet_access: true
     act_ensure_eapi_access: true
   use_default_interfaces_of_digital_twin_platform: false
 
-mgmt_gateway: 172.16.254.1
+mgmt_gateway: 172.16.255.1
 ipv6_mgmt_gateway: 2001:db8:feed:beef::1
 
 mgmt_interface_settings:
   description: OOB_MANAGEMENT
-  vrf: MGMT
+  vrf: default
   interface: Management1
   lldp:
     transmit: false
