@@ -5,5 +5,16 @@
     "containerEnv": {
         "ARISTA_TOKEN": "${localEnv:ARTOKEN}"
     },
+    "remoteEnv": {
+        "CR_PAT": "${localEnv:CRPAT}"
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+            "srl-labs.vscode-containerlab"
+        ]
+      }
+    },
+    "postStartCommand": "curl -sL https://github.com/siemens/edgeshark/raw/main/deployments/wget/docker-compose.yaml | DOCKER_DEFAULT_PLATFORM=linux/arm64 docker compose -f - up -d",
     "remoteUser": "avd"
 }
