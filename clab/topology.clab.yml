@@ -11,7 +11,7 @@ topology:
     startup-delay: 5
   kinds:
     arista_ceos:
-      image: arista/ceos:4.36.0F
+      image: arista/ceos:4.36.0.1F
   nodes:
     red-mcs:
       kind: arista_ceos
