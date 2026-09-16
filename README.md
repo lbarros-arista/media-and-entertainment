@@ -267,8 +267,12 @@ save:
 
 # Initiate MCAST Streams on media-hosts1 as an Example
 
+SSH to one of the media hosts, for example media-hosts1 and enter in the cEOS CLI enter "bash".
+
+Then initiate an iperf multicast stream:
+
 ```
-iperf -c 232.1.1.1 -B 172.16.0.1 -u -t 3600 -l 1350 -T 10 -b 100M
+iperf -c 232.1.1.1 -B 172.16.0.1 -u -t 3600 -l 1350 -T 10 -b 1000M
 ```
 
 For Example:
@@ -290,7 +294,7 @@ UDP buffer size:  208 KByte (default)
 [  1] Sent 34952528 datagrams
 ```
 
-If you would like to emulate an IGMPv3 join:
+If you would like to emulate an IGMPv3 join on a different media host:
 
 ```
 iperf -s -u -B 239.1.1.1%_et1 -H 172.16.0.1 -i 1
@@ -356,18 +360,18 @@ Analogously, to reguster receivers the action is **"flow-action": "addReceivers"
     "data": [
         {
             "destinationIP": "232.1.1.1",
-            "sourceIP": "172.16.0.1",
-            "bandwidth": 100,
-            "bwType": "m",
-            "inIntfID": "00:1c:73:47:be:21-Ethernet3",
-            "label": "ME-Demo",
+              "sourceIP": "172.16.0.1",
+            "bandwidth": 12,
+            "bwType": "g",
+            "inIntfID": "00:1c:73:xx:xx:xx-Ethernet3",
+            "label": "Camera 1",
             "applyPolicy": true,
             "dscp": 46,
             "tc": 6
         }
     ],
     "flow-action": "addSenders",
-    "transactionID": "GS#1",
+    "transactionID": "ME-Demo",
     "trackingID": 1
 }
 ```
@@ -384,7 +388,7 @@ Analogously, to reguster receivers the action is **"flow-action": "addReceivers"
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.0032-Ethernet3"
+                "001c.73xx.xxxx-Ethernet3"
             ]
         }
     ]
@@ -407,15 +411,15 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
               "sourceIP": "172.16.0.1",
             "bandwidth": 12,
             "bwType": "g",
-            "inIntfID": "001c.7347.be21-Ethernet3",
-            "label": "camera 1",
+            "inIntfID": "001c.73xx.xxxx-Ethernet3",
+            "label": "Camera 1",
             "applyPolicy": true,
             "dscp": 46,
             "tc": 6
         }
     ],
     "flow-action": "addSenders",
-    "transactionID": "GS#1",
+    "transactionID": "ME-Demo",
     "trackingID": 1
 }
 '
@@ -435,7 +439,7 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.0032-Ethernet4"
+                "001c.73xx.xxxx-Ethernet3"
             ]
         }
     ]
@@ -450,76 +454,14 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
 --header 'Content-Type: application/json' \
 --data '{
     "flow-action": "addReceivers",
-    "transactionID": "ME-Demo",
+    "transactionID": "camera 1",
     "trackingID": 1,
     "data": [
         {
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.efef-Ethernet4"
-            ]
-        }
-    ]
-}
-'
-```
-
-## Example for BLUE network
-
-```
-curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/multicast/senders' \
---header 'Content-Type: application/json' \
---data '{
-    "data": [
-        {
-            "destinationIP": "232.1.1.1",
-              "sourceIP": "172.16.0.3",
-            "bandwidth": 100,
-            "bwType": "m",
-            "inIntfID": "001c.73cb.abab-Ethernet3",
-            "label": "ME-Demo",
-            "applyPolicy": true,
-            "dscp": 46,
-            "tc": 6
-        }
-    ],
-    "flow-action": "addSenders",
-    "transactionID": "GS#1",
-    "trackingID": 1
-}
-'
-
-curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/multicast/receivers' \
---header 'Content-Type: application/json' \
---data '{
-    "flow-action": "addReceivers",
-    "transactionID": "ME-Demo",
-    "trackingID": 1,
-    "data": [
-        {
-            "destinationIP": "232.1.1.1",
-            "sourceIP": "172.16.0.3",
-            "outIntfID": [
-                "001c.7326.dede-Ethernet3"
-            ]
-        }
-    ]
-}
-'
-
-curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/multicast/receivers' \
---header 'Content-Type: application/json' \
---data '{
-    "flow-action": "addReceivers",
-    "transactionID": "ME-Demo",
-    "trackingID": 1,
-    "data": [
-        {
-            "destinationIP": "232.1.1.1",
-            "sourceIP": "172.16.0.3",
-            "outIntfID": [
-                "001c.7326.dede-Ethernet4"
+                "001c.73xx.xxxx-Ethernet3"
             ]
         }
     ]
@@ -537,37 +479,37 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
         {
             "destinationIP": "232.1.1.1",
               "sourceIP": "172.16.0.1",
-            "bandwidth": 100,
-            "bwType": "m",
-            "inIntfID": "001c.7347.be21-Ethernet3",
-            "label": "ME-Demo",
+            "bandwidth": 12,
+            "bwType": "g",
+            "inIntfID": "001c.73xx.xxxx-Ethernet3",
+            "label": "Camera 1",
             "applyPolicy": true,
             "dscp": 46,
             "tc": 6
         }
     ],
     "flow-action": "delSenders",
-    "transactionID": "GS#1",
+    "transactionID": "ME-Demo",
     "trackingID": 1
 }
 '
 ```
 
-## Delete Receiver
+## Delete Receivers
 
 ```
 curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
 --header 'Content-Type: application/json' \
 --data '{
     "flow-action": "delReceivers",
-    "transactionID": "ME-Demo",
+    "transactionID": "camera 1",
     "trackingID": 1,
     "data": [
         {
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.0032-Ethernet3"
+                "001c.73xx.xxxx-Ethernet3"
             ]
         }
     ]
@@ -579,15 +521,15 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
 curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
 --header 'Content-Type: application/json' \
 --data '{
-    "flow-action": "delReceivers",
-    "transactionID": "ME-Demo",
+    "flow-action": "addReceivers",
+    "transactionID": "camera 1",
     "trackingID": 1,
     "data": [
         {
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.0032-Ethernet4"
+                "001c.73xx.xxxx-Ethernet4"
             ]
         }
     ]
