@@ -20,7 +20,7 @@ topology:
       startup-config: ../avd/intended/configs/red-mcs.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/red-mcs.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/red-mcs.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -33,7 +33,7 @@ topology:
       startup-config: ../avd/intended/configs/blue-mcs.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/blue-mcs.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/blue-mcs.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -46,7 +46,7 @@ topology:
       startup-config: ../avd/intended/configs/red-spine.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/red-spine.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/red-spine.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -59,7 +59,7 @@ topology:
       startup-config: ../avd/intended/configs/blue-spine.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/blue-spine.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/blue-spine.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -72,7 +72,7 @@ topology:
       startup-config: ../avd/intended/configs/red-rt-leaf1.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/red-rt-leaf1.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/red-rt-leaf1.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -85,7 +85,7 @@ topology:
       startup-config: ../avd/intended/configs/blue-rt-leaf1.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/blue-rt-leaf1.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/blue-rt-leaf1.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -98,7 +98,7 @@ topology:
       startup-config: ../avd/intended/configs/red-rt-leaf2.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/red-rt-leaf2.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/red-rt-leaf2.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -111,7 +111,7 @@ topology:
       startup-config: ../avd/intended/configs/blue-rt-leaf2.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/blue-rt-leaf2.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/blue-rt-leaf2.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -124,7 +124,7 @@ topology:
       startup-config: ../avd/intended/configs/ptp-leaf1.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/ptp-leaf1.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/ptp-leaf1.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -137,7 +137,7 @@ topology:
       startup-config: ../avd/intended/configs/ptp-leaf2.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/ptp-leaf2.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/ptp-leaf2.txt:/mnt/flash/ceos-config:ro
         - ../clab/cv-onboarding-token:/mnt/flash/cv-onboarding-token:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
@@ -153,7 +153,7 @@ topology:
       startup-config: ../clab/configs/media-host1.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/media-host1.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/media-host1.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5291:443/tcp
@@ -165,7 +165,7 @@ topology:
       startup-config: ../clab/configs/media-host2.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/media-host2.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/media-host2.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5292:443/tcp
@@ -177,7 +177,7 @@ topology:
       startup-config: ../clab/configs/media-host3.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/media-host3.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/media-host3.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5293:443/tcp
@@ -189,7 +189,7 @@ topology:
       startup-config: ../clab/configs/media-host4.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/media-host4.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/media-host4.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5294:443/tcp
@@ -201,7 +201,7 @@ topology:
       startup-config: ../clab/configs/ptp-gm1.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/ptp-gm1.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/ptp-gm1.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5295:443/tcp
@@ -213,7 +213,7 @@ topology:
       startup-config: ../clab/configs/ptp-gm2.cfg
       enforce-startup-config: true
       binds:
-        - ../clab/sn/ptp-gm2.txt:/mnt/flash/ceos-config:ro
+        # - ../clab/sn/ptp-gm2.txt:/mnt/flash/ceos-config:ro
         - ../clab/eos-intf-mapping/ceos-lab_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
       ports:
         # - 5296:443/tcp
