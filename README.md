@@ -1,6 +1,6 @@
 # Arista M&E SMPTE 2110 Real Time Network with MCS controller
 
-This repo includes a SMPTE 2110 Real Time datacenter network with a RED and a BLUE spine and RED and BLUE leafs.
+This repo includes a SMPTE 2110 Real Time datacenter with a RED and a BLUE spine and RED and BLUE leafs.
 
 ## Introduction
 
@@ -23,10 +23,9 @@ admin/admin is useful for SSH access to CLAB machines, as it's the default arist
 > password: admin
 ```
 
-
 ## Topology
 
-![SMPTE 2110 Real Time Network](/images/topology.clab.png)
+![SMPTE 2110 Real Time Network](./images/topology.clab.png)
 
 ## Instructions to setup the lab
 
@@ -279,7 +278,7 @@ media-host1#bash
 
 Arista Networks EOS shell
 
-[ansible@media-host1 ~]$ iperf -c 232.1.1.1 -B 172.16.0.1 -u -t 3600 -l 1350 -T 10 -b 100M
+[ansible@media-host1 ~]$ iperf -c 232.1.1.1 -B 172.16.0.1 -u -t 3600 -l 1350 -T 10 -b 1000M
 ------------------------------------------------------------
 Client connecting to 232.1.1.1, UDP port 5001
 Sending 1350 byte datagrams, IPG target: 103.00 us (kalman adjust)
@@ -360,7 +359,7 @@ Analogously, to reguster receivers the action is **"flow-action": "addReceivers"
             "sourceIP": "172.16.0.1",
             "bandwidth": 100,
             "bwType": "m",
-            "inIntfID": "00:1c:73:47:be:21-Ethernet2",
+            "inIntfID": "00:1c:73:47:be:21-Ethernet3",
             "label": "ME-Demo",
             "applyPolicy": true,
             "dscp": 46,
@@ -385,7 +384,7 @@ Analogously, to reguster receivers the action is **"flow-action": "addReceivers"
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.0032-Ethernet2"
+                "001c.7304.0032-Ethernet3"
             ]
         }
     ]
@@ -396,7 +395,7 @@ Analogously, to reguster receivers the action is **"flow-action": "addReceivers"
 
 ## Example for RED network
 
-### Send API call to RED MCS registering SENDER on red-rt-leaf1 interface Ethernet2 (S,G) group (172.16.0.1,232.1.1.1)
+### Send API call to RED MCS registering SENDER on red-rt-leaf1 interface Ethernet3 (S,G) group (172.16.0.1,232.1.1.1)
 
 ```
 curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/senders' \
@@ -406,10 +405,10 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
         {
             "destinationIP": "232.1.1.1",
               "sourceIP": "172.16.0.1",
-            "bandwidth": 100,
-            "bwType": "m",
-            "inIntfID": "001c.7347.acac-Ethernet2",
-            "label": "ME-Demo",
+            "bandwidth": 12,
+            "bwType": "g",
+            "inIntfID": "001c.7347.be21-Ethernet3",
+            "label": "camera 1",
             "applyPolicy": true,
             "dscp": 46,
             "tc": 6
@@ -418,27 +417,6 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
     "flow-action": "addSenders",
     "transactionID": "GS#1",
     "trackingID": 1
-}'
-```
-
-### Send API call to RED MCS registering receiver on red-rt-leaf2 interface Ethernet2 interested in (S,G) group (172.16.0.1,232.1.1.1)
-
-```
-curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
---header 'Content-Type: application/json' \
---data '{
-    "flow-action": "addReceivers",
-    "transactionID": "ME-Demo",
-    "trackingID": 1,
-    "data": [
-        {
-            "destinationIP": "232.1.1.1",
-            "sourceIP": "172.16.0.1",
-            "outIntfID": [
-                "001c.7304.efef-Ethernet2"
-            ]
-        }
-    ]
 }
 '
 ```
@@ -450,6 +428,28 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
 --header 'Content-Type: application/json' \
 --data '{
     "flow-action": "addReceivers",
+    "transactionID": "camera 1",
+    "trackingID": 1,
+    "data": [
+        {
+            "destinationIP": "232.1.1.1",
+            "sourceIP": "172.16.0.1",
+            "outIntfID": [
+                "001c.7304.0032-Ethernet4"
+            ]
+        }
+    ]
+}
+'
+```
+
+### Send API call to RED MCS registering receiver on red-rt-leaf2 interface Ethernet4 interested in (S,G) group (172.16.0.1,232.1.1.1)
+
+```
+curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
+--header 'Content-Type: application/json' \
+--data '{
+    "flow-action": "addReceivers",
     "transactionID": "ME-Demo",
     "trackingID": 1,
     "data": [
@@ -457,7 +457,7 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/mult
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.1",
             "outIntfID": [
-                "001c.7304.efef-Ethernet3"
+                "001c.7304.efef-Ethernet4"
             ]
         }
     ]
@@ -477,7 +477,7 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/mult
               "sourceIP": "172.16.0.3",
             "bandwidth": 100,
             "bwType": "m",
-            "inIntfID": "001c.73cb.abab-Ethernet2",
+            "inIntfID": "001c.73cb.abab-Ethernet3",
             "label": "ME-Demo",
             "applyPolicy": true,
             "dscp": 46,
@@ -487,7 +487,8 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/mult
     "flow-action": "addSenders",
     "transactionID": "GS#1",
     "trackingID": 1
-}'
+}
+'
 
 curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/multicast/receivers' \
 --header 'Content-Type: application/json' \
@@ -500,7 +501,7 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/mult
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.3",
             "outIntfID": [
-                "001c.7326.dede-Ethernet2"
+                "001c.7326.dede-Ethernet3"
             ]
         }
     ]
@@ -518,7 +519,75 @@ curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5281/mcs/mult
             "destinationIP": "232.1.1.1",
             "sourceIP": "172.16.0.3",
             "outIntfID": [
-                "001c.7326.dede-Ethernet3"
+                "001c.7326.dede-Ethernet4"
+            ]
+        }
+    ]
+}
+'
+```
+
+## Delete Sender
+
+```
+curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/senders' \
+--header 'Content-Type: application/json' \
+--data '{
+    "data": [
+        {
+            "destinationIP": "232.1.1.1",
+              "sourceIP": "172.16.0.1",
+            "bandwidth": 100,
+            "bwType": "m",
+            "inIntfID": "001c.7347.be21-Ethernet3",
+            "label": "ME-Demo",
+            "applyPolicy": true,
+            "dscp": 46,
+            "tc": 6
+        }
+    ],
+    "flow-action": "delSenders",
+    "transactionID": "GS#1",
+    "trackingID": 1
+}
+'
+```
+
+## Delete Receiver
+
+```
+curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
+--header 'Content-Type: application/json' \
+--data '{
+    "flow-action": "delReceivers",
+    "transactionID": "ME-Demo",
+    "trackingID": 1,
+    "data": [
+        {
+            "destinationIP": "232.1.1.1",
+            "sourceIP": "172.16.0.1",
+            "outIntfID": [
+                "001c.7304.0032-Ethernet3"
+            ]
+        }
+    ]
+}
+'
+```
+
+```
+curl --user ansible:ansible --insecure --location 'https://0.0.0.0:5280/mcs/multicast/receivers' \
+--header 'Content-Type: application/json' \
+--data '{
+    "flow-action": "delReceivers",
+    "transactionID": "ME-Demo",
+    "trackingID": 1,
+    "data": [
+        {
+            "destinationIP": "232.1.1.1",
+            "sourceIP": "172.16.0.1",
+            "outIntfID": [
+                "001c.7304.0032-Ethernet4"
             ]
         }
     ]
