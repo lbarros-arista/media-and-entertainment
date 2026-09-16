@@ -1,6 +1,6 @@
 ---
 
-ptp-leaf:
+ptp_leaf:
   defaults:
     platform: ceos
     loopback_ipv4_pool: 10.255.255.0/24
@@ -15,8 +15,6 @@ ptp-leaf:
     bgp_defaults:
       - timers bgp 5 15
       - neighbor default send-community
-      - neighbor IPv4-UNDERLAY-PEERS peer-tag in SPINE
-      - neighbor IPv4-UNDERLAY-PEERS peer-tag out discard SPINE
     underlay_multicast:
       pim_sm:
         enabled: false
@@ -24,6 +22,8 @@ ptp-leaf:
         enabled: false
     ptp:
       enabled: true
+      free_running:
+        enabled: false
     filter:
       only_vlans_in_use: true
     structured_config:
@@ -54,15 +54,20 @@ ptp-leaf:
           connected:
             enabled: true
             route_map: RM-CONNECTED
+        peer_groups:
+          - name: IPv4-UNDERLAY-PEERS
+            peer_tag_in: SPINE-UL
+            peer_tag_out_discard: SPINE-UL
       router_multicast:
         ipv4:
           routing: true
-    raw_eos_cli: |
-      daemon TerminAttr
-         exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
-         no shutdown
-      platform tfa
-         interface mode relaying
+      eos_cli: |
+        daemon TerminAttr
+          exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
+          no shutdown
+        !
+        platform tfa
+          interface mode relaying
   node_groups:
     - group: PTP-LEAFS
       nodes:

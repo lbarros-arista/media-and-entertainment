@@ -4,15 +4,16 @@ mcs:
   defaults:
     platform: ceos
     spanning_tree_mode: none
-    raw_eos_cli: |
-      daemon TerminAttr
-         exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
-         no shutdown
-      !
-      aaa authorization commands all default local
-      !
-      platform tfa
-         interface mode relaying
+    structured_config:
+      eos_cli: |
+        daemon TerminAttr
+          exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
+          no shutdown
+        !
+        platform tfa
+          interface mode relaying
+        !
+        aaa authorization commands all default local
   nodes:
     - name: red-mcs
       id: 7

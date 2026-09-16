@@ -1,6 +1,6 @@
 ---
 
-media-rt-leaf:
+media_rt_leaf:
   defaults:
     platform: ceos
     loopback_ipv4_pool: 10.255.255.0/24
@@ -10,7 +10,7 @@ media-rt-leaf:
     uplink_ipv4_pool: 10.255.0.0/24
     uplink_ipv6_pool: 2001:db8:255::/64
     uplink_interface_speed: 400g-4
-    uplink_interfaces: [ Ethernet1 ]
+    uplink_interfaces: [ Ethernet1, Ethernet2 ]
     spanning_tree_priority: 4096
     spanning_tree_mode: mstp
     bgp_defaults:
@@ -18,6 +18,8 @@ media-rt-leaf:
       - neighbor default send-community
     ptp:
       enabled: true
+      free_running:
+        enabled: false
     structured_config:
       prefix_lists:
         - name: PL-ANY
@@ -46,12 +48,13 @@ media-rt-leaf:
           connected:
             enabled: true
             route_map: RM-CONNECTED
-    raw_eos_cli: |
-      daemon TerminAttr
-        exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1 -sysdbexcludes=mcs/v1/fromCvx/deviceConfig/senderPolicy,routing/pim/sparsemode/registerstatus/default/noRegisterOif,routing/pim/sparsemode/register/config/vrfConfig/default/couldRegisterSg,acl/config/input/mcs/config/ip/acl,qos/acl/input/eosSdkConfig/mcs/cmapType/mapQos/cmap,qos/status/cmapType/mapQos/cmap,acl/status/all/status/ip/acl,routing/multicast/routestatus/default/sparsemode/route,routing/pim/sparsemode/status/default/route,routing/pim/sparsemode/register/config/vrfConfig/default/registerStop,mcs/v1/fromCvx/deviceConfig/staticMfibRoute,routing/multicast/routestatus/default/mcs/route,mcs/v1/activeflows/route,routing/hardware/multicast/status/vrfStatus/default/route
-        no shutdown
-      platform tfa
-         interface mode relaying
+      eos_cli: |
+        daemon TerminAttr
+          exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1 -sysdbexcludes=mcs/v1/fromCvx/deviceConfig/senderPolicy,routing/pim/sparsemode/registerstatus/default/noRegisterOif,routing/pim/sparsemode/register/config/vrfConfig/default/couldRegisterSg,acl/config/input/mcs/config/ip/acl,qos/acl/input/eosSdkConfig/mcs/cmapType/mapQos/cmap,qos/status/cmapType/mapQos/cmap,acl/status/all/status/ip/acl,routing/multicast/routestatus/default/sparsemode/route,routing/pim/sparsemode/status/default/route,routing/pim/sparsemode/register/config/vrfConfig/default/registerStop,mcs/v1/fromCvx/deviceConfig/staticMfibRoute,routing/multicast/routestatus/default/mcs/route,mcs/v1/activeflows/route,routing/hardware/multicast/status/vrfStatus/default/route
+          no shutdown
+        !
+        platform tfa
+          interface mode relaying
   node_groups:
     - group: RT-RACK1
       nodes:
@@ -59,8 +62,8 @@ media-rt-leaf:
           id: 1
           mgmt_ip: 172.16.255.13/24
           ipv6_mgmt_ip: 2001:db8:feed:beef::13/64
-          uplink_switches: [ red-spine ]
-          uplink_switch_interfaces: [ Ethernet3 ]
+          uplink_switches: [ red-spine, red-spine ]
+          uplink_switch_interfaces: [ Ethernet3, Ethernet4 ]
           bgp_as: 65201
           structured_config:
             management_cvx:
@@ -74,8 +77,8 @@ media-rt-leaf:
           id: 2
           mgmt_ip: 172.16.255.14/24
           ipv6_mgmt_ip: 2001:db8:feed:beef::14/64
-          uplink_switches: [ blue-spine ]
-          uplink_switch_interfaces: [ Ethernet3 ]
+          uplink_switches: [ blue-spine, blue-spine ]
+          uplink_switch_interfaces: [ Ethernet3, Ethernet4 ]
           bgp_as: 65301
           structured_config:
             management_cvx:
@@ -91,8 +94,8 @@ media-rt-leaf:
           id: 3
           mgmt_ip: 172.16.255.15/24
           ipv6_mgmt_ip: 2001:db8:feed:beef::15/64
-          uplink_switches: [ red-spine ]
-          uplink_switch_interfaces: [ Ethernet4 ]
+          uplink_switches: [ red-spine, red-spine ]
+          uplink_switch_interfaces: [ Ethernet5, Ethernet6 ]
           bgp_as: 65202
           structured_config:
             management_cvx:
@@ -106,8 +109,8 @@ media-rt-leaf:
           id: 4
           mgmt_ip: 172.16.255.16/24
           ipv6_mgmt_ip: 2001:db8:feed:beef::16/64
-          uplink_switches: [ blue-spine ]
-          uplink_switch_interfaces: [ Ethernet4 ]
+          uplink_switches: [ blue-spine, blue-spine ]
+          uplink_switch_interfaces: [ Ethernet5, Ethernet6 ]
           bgp_as: 65302
           structured_config:
             management_cvx:

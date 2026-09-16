@@ -8,32 +8,32 @@ all:
         SPINES:
           hosts:
             red-spine:
-              type: media-spine
+              type: media_spine
               ansible_host: 172.16.255.11
             blue-spine:
-              type: media-spine
+              type: media_spine
               ansible_host: 172.16.255.12
         MEDIA_RT_LEAFS:
           hosts:
             red-rt-leaf1:
-              type: media-rt-leaf
+              type: media_rt_leaf
               ansible_host: 172.16.255.13
             blue-rt-leaf1:
-              type: media-rt-leaf
+              type: media_rt_leaf
               ansible_host: 172.16.255.14
             red-rt-leaf2:
-              type: media-rt-leaf
+              type: media_rt_leaf
               ansible_host: 172.16.255.15
             blue-rt-leaf2:
-              type: media-rt-leaf
+              type: media_rt_leaf
               ansible_host: 172.16.255.16
         PTP_LEAFS:
           hosts:
             ptp-leaf1:
-              type: ptp-leaf
+              type: ptp_leaf
               ansible_host: 172.16.255.31
             ptp-leaf2:
-              type: ptp-leaf
+              type: ptp_leaf
               ansible_host: 172.16.255.32
         MCS:
           hosts:

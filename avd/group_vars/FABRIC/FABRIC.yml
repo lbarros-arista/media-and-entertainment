@@ -10,7 +10,7 @@ eos_designs_documentation:
 digital_twin:
   environment: act
   fabric: 
-    act_os_version: 4.36.0.1F
+    act_os_version: 4.36.0F
     act_username: admin
     act_password: admin
     act_internet_access: true
@@ -141,33 +141,33 @@ l3_edge:
       interfaces: [ Ethernet5, Ethernet1 ]
     - nodes: [ red-rt-leaf1, media-host1 ]
       id: 1
-      interfaces: [ Ethernet2, Ethernet1 ]
+      interfaces: [ Ethernet3, Ethernet1 ]
       profile: MCAST_PROFILE
     - nodes: [ blue-rt-leaf1, media-host1 ]
       id: 2
-      interfaces: [ Ethernet2, Ethernet2 ]
+      interfaces: [ Ethernet3, Ethernet2 ]
       profile: MCAST_PROFILE
     - nodes: [ red-rt-leaf2, media-host2 ]
       id: 3
-      interfaces: [ Ethernet2, Ethernet1 ]
+      interfaces: [ Ethernet3, Ethernet1 ]
       profile: MCAST_PROFILE
     - nodes: [ blue-rt-leaf2, media-host2 ]
       id: 4
-      interfaces: [ Ethernet2, Ethernet2 ]
+      interfaces: [ Ethernet3, Ethernet2 ]
       profile: MCAST_PROFILE
     - nodes: [ red-rt-leaf1, media-host1 ]
       id: 5
-      interfaces: [ Ethernet3, Ethernet1 ]
+      interfaces: [ Ethernet4, Ethernet1 ]
       profile: MCAST_PROFILE
     - nodes: [ blue-rt-leaf1, media-host1 ]
       id: 6
-      interfaces: [ Ethernet3, Ethernet2 ]
+      interfaces: [ Ethernet4, Ethernet2 ]
       profile: MCAST_PROFILE
     - nodes: [ red-rt-leaf2, media-host2 ]
       id: 7
-      interfaces: [ Ethernet3, Ethernet1 ]
+      interfaces: [ Ethernet4, Ethernet1 ]
       profile: MCAST_PROFILE
     - nodes: [ blue-rt-leaf2, media-host2 ]
       id: 8
-      interfaces: [ Ethernet3, Ethernet2 ]
+      interfaces: [ Ethernet4, Ethernet2 ]
       profile: MCAST_PROFILE
