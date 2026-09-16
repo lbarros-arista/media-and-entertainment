@@ -343,7 +343,7 @@ Ethernet2                239.1.1.1        172.16.0.1
 
 [Please refer to Postman CVX-MCS Collection](https://documenter.getpostman.com/view/195675/SVtR2qeA)
 
-Note that the **"inIntfID": "00:1c:73:47:be:21-Ethernet2"** is the system MAC of the target and the interface.
+Note that the **"inIntfID": "00:1c:73:xx:xx:xx-Ethernet3"** is the system MAC of the target and the interface.
 
 To register senders, the action is **"flow-action": "addSenders",**
 
