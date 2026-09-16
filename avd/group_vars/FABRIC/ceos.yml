@@ -1,0 +1,5 @@
+---
+
+custom_structured_configuration_eos_cli: |-
+  platform tfa
+    interface mode relaying

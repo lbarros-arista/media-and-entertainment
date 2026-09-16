@@ -61,13 +61,6 @@ ptp_leaf:
       router_multicast:
         ipv4:
           routing: true
-      eos_cli: |
-        daemon TerminAttr
-          exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1
-          no shutdown
-        !
-        platform tfa
-          interface mode relaying
   node_groups:
     - group: PTP-LEAFS
       nodes:

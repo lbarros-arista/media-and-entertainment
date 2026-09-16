@@ -44,13 +44,6 @@ media_spine:
           connected:
             enabled: true
             route_map: RM-CONNECTED
-      eos_cli: |
-        daemon TerminAttr
-          exec /usr/bin/TerminAttr -cvaddr=apiserver.arista.io:443 -cvauth=token-secure,/mnt/flash/cv-onboarding-token -disableaaa -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs -cvsourceintf=Management1 -sysdbexcludes=mcs/v1/fromCvx/deviceConfig/senderPolicy,routing/pim/sparsemode/registerstatus/default/noRegisterOif,routing/pim/sparsemode/register/config/vrfConfig/default/couldRegisterSg,acl/config/input/mcs/config/ip/acl,qos/acl/input/eosSdkConfig/mcs/cmapType/mapQos/cmap,qos/status/cmapType/mapQos/cmap,acl/status/all/status/ip/acl,routing/multicast/routestatus/default/sparsemode/route,routing/pim/sparsemode/status/default/route,routing/pim/sparsemode/register/config/vrfConfig/default/registerStop,mcs/v1/fromCvx/deviceConfig/staticMfibRoute,routing/multicast/routestatus/default/mcs/route,mcs/v1/activeflows/route,routing/hardware/multicast/status/vrfStatus/default/route
-          no shutdown
-        !
-        platform tfa
-          interface mode relaying
   node_groups:
     - group: RT-SPINES
       nodes:
