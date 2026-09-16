@@ -4,6 +4,10 @@ mcs:
   defaults:
     platform: ceos
     spanning_tree_mode: none
+    structured_config:
+      aaa_authorization:
+        commands:
+          all_default: local
   nodes:
     - name: red-mcs
       id: 7
