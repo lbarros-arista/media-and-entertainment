@@ -56,3 +56,7 @@ test: ## Test Topology
 .PHONY: test-api
 test-api: ## Test API to device
 	curl --user ansible:ansible --data "$(COMMAND)" --insecure https://$(DEVICE):443/command-api
+
+.PHONY: psirt
+psirt: ## Test Topology
+	cd ${CURRENT_DIR}/avd; anta psirt --inventory ./anta-inventory.yml --username admin --prompt md-report --md-output ./anta/reports/sa-report.md
