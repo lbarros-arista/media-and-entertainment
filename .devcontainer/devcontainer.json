@@ -15,6 +15,6 @@
         ]
       }
     },
-    "postStartCommand": "curl -sL https://github.com/siemens/edgeshark/raw/main/deployments/wget/docker-compose.yaml | DOCKER_DEFAULT_PLATFORM=linux/arm64 docker compose -f - up -d",
+    "postStartCommand": "pip install 'anta[cli]' -U; curl -sL https://github.com/siemens/edgeshark/raw/main/deployments/wget/docker-compose.yaml | DOCKER_DEFAULT_PLATFORM=linux/arm64 docker compose -f - up -d",
     "remoteUser": "avd"
 }
