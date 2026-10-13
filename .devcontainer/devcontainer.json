@@ -2,12 +2,6 @@
     "build": {
       "dockerfile": "Dockerfile"
     },
-    "containerEnv": {
-        "ARISTA_TOKEN": "${localEnv:ARTOKEN}"
-    },
-    "remoteEnv": {
-        "CR_PAT": "${localEnv:CRPAT}"
-    },
     "customizations": {
       "vscode": {
         "extensions": [
