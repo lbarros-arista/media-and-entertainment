@@ -59,4 +59,8 @@ test-api: ## Test API to device
 
 .PHONY: psirt
 psirt: ## Test Topology
-	cd ${CURRENT_DIR}/avd; anta psirt --inventory ./anta-inventory.yml --username admin --prompt md-report --md-output ./anta/reports/sa-report.md
+	cd ${CURRENT_DIR}/avd; anta psirt --inventory ./anta-inventory.yml --ignore-error --ignore-status --username admin --prompt md-report --md-output ./anta/reports/sa-report.md
+
+.PHONY: psirt-csv
+psirt-csv: ## Test Topology
+	cd ${CURRENT_DIR}/avd; anta psirt --inventory ./anta-inventory.yml --ignore-error --ignore-status --username admin --prompt csv --csv-output ./anta/reports/sa-report.csv
